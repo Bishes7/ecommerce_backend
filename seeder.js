@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 import colors from "colors";
 import users from "./data/users.js";
 import products from "./data/products.js";
-import userSchema from "./model/userSchema.js";
-import productSchema from "./model/productSchema.js";
-import orderSchema from "./model/orderSchema.js";
 import connectDB from "./config/dbConnect.js";
+import User from "./model/userSchema.js";
+import productModel from "./model/productSchema.js";
+import Order from "./model/orderSchema.js";
 
 dotenv.config();
 
@@ -16,18 +16,14 @@ connectDB();
 
 const importData = async () => {
   try {
-    await orderSchema.deleteMany();
-    await productSchema.deleteMany();
-    await userSchema.deleteMany();
-
-    const createdUsers = await userSchema.insertMany(users);
+    const createdUsers = await User.insertMany(users);
 
     const adminUser = createdUsers[0]._id;
 
     const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser };
     });
-    await productSchema.insertMany(sampleProducts);
+    await productModel.insertMany(sampleProducts);
     console.log("Data Imported".green.inverse);
     process.exit();
   } catch (error) {
@@ -39,9 +35,9 @@ const importData = async () => {
 // delete the dummy datas
 const destroyData = async () => {
   try {
-    await orderSchema.deleteMany();
-    await productSchema.deleteMany();
-    await userSchema.deleteMany();
+    await Order.deleteMany();
+    await productModel.deleteMany();
+    await User.deleteMany();
     console.log("Data destroyed".red.inverse);
     process.exit();
   } catch (error) {

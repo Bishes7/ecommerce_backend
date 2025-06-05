@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "data-import": "node ecommerce_backend/seeder.js ",
-    "data-destroy": "node ecommerce_backend/seeder.js -d"
+    "import-data": "node seeder.js ",
+    "destroy-data": "node seeder.js -d"
   },
   "keywords": [],
   "author": "",
