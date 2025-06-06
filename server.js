@@ -1,7 +1,8 @@
 import express from "express";
-import products from "./data/products.js";
 import dotenv from "dotenv";
 import connectDB from "./config/dbConnect.js";
+import productRoutes from "./routes/productRoutes.js";
+import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
 dotenv.config();
 
 connectDB(); // connection to MongoDB
@@ -15,15 +16,12 @@ app.get("/", (req, res) => {
   res.send("server is live");
 });
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+// path to products
+app.use("/api/products", productRoutes);
 
-// find the products from id
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
+// middleware to catch errors
+app.use(notfound);
+app.use(errorHandler);
 
 // listening the port
 app.listen(PORT, (error) =>
