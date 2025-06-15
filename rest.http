@@ -1,0 +1,38 @@
+@rootURl = http://localhost:8000
+
+# Users Testings
+
+### Login User  (USERS ONLY)-----
+POST {{rootURl}}/api/users/login
+Content-Type: application/json
+
+{
+    "email":"admin@email.com",
+    "password":"Adamghat7"
+}
+
+### Register User
+POST {{rootURl}}/api/users
+
+### Logout User
+POST {{rootURl}}/api/users/logout
+
+### Get user profile
+GET  {{rootURl}}/api/users/profile
+
+### Update user profile
+PUT {{rootURl}}/api/users/profile
+
+### ADMINS ONLY---------
+### GET Users 
+GET {{rootURl}}/api/users
+
+### GET user by id
+GET {{rootURl}}/api/users/:id
+
+### DElete user
+DELETE {{rootURl}}/api/users/:id
+
+### Update user
+PUT {{rootURl}}/api/users/:id
+
