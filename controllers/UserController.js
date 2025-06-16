@@ -1,12 +1,26 @@
 import asyncHandler from "../middleware/asyncHandler.js";
+import User from "../model/userSchema.js";
 import router from "../routes/productRoutes.js";
+import { comparePassword } from "../utils/passwordUtils.js";
 
 // @desc   Auth user & get token
 // @route  POST /api/users/login
 // @access Public
 export const loginUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  res.send("User Login successfullyy");
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (user._id && comparePassword(password, user.password)) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
 });
 
 // @desc   Register User

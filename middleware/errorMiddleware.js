@@ -5,17 +5,18 @@ const notfound = (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  let statuscode = res.statuscode === 200 ? 500 : res.statuscode;
+  //  Always fallback to 500 if no status is set or it's 200
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
 
   //   check for Mongoose bad ObjectID
   if (err.name === "CastError" && err.kind === "ObjectId") {
     message = `Resource not found`;
-    statuscode = 404;
+    statusCode = 404;
   }
 
   //   respond to client
-  res.status(statuscode).json({ message });
+  res.status(statusCode).json({ message });
 };
 
 export { notfound, errorHandler };
