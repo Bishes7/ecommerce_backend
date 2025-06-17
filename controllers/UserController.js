@@ -1,8 +1,8 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../model/userSchema.js";
 import router from "../routes/productRoutes.js";
-import { comparePassword } from "../utils/passwordUtils.js";
-import jwt from "jsonwebtoken";
+import { comparePassword, encryptPassword } from "../utils/bcrypt.js";
+import generateToken from "../utils/generateToken.js";
 
 // @desc   Auth user & get token
 // @route  POST /api/users/login
@@ -11,20 +11,9 @@ export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (user._id && comparePassword(password, user.password)) {
-    // token sign
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRETKEY, {
-      expiresIn: "30d",
-    });
-
-    // Set jwt as HTTP-only co0kie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 30 * 60 * 60 * 1000, // 30 Days
-    });
-
-    res.json({
+  if (user?._id && comparePassword(password, user.password)) {
+    generateToken(res, user._id);
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -39,7 +28,34 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @desc   Register User
 // @route  POST /api/users
 // @access Public
-export const registerUser = asyncHandler(async (req, res) => {});
+export const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // check if the user exists
+  const userExists = await User.findOne({ email });
+  if (userExists?._id) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  // if user dont exists // encrypt the password and save
+  req.body.password = encryptPassword(password);
+
+  const user = await User(req.body).save();
+
+  if (user?._id) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid details");
+  }
+});
 
 // @desc   Logout user and clear cookie
 // @route  POST /api/users/logout
@@ -56,14 +72,46 @@ export const logoutUser = asyncHandler(async (req, res) => {
 // @route  POST /api/users/profile
 // @access Private
 export const getUserProfile = asyncHandler(async (req, res) => {
-  res.send("get user profile");
+  const user = await User.findById(req.userInfo._id);
+
+  if (user?._id) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 // @desc   Update user profile
 // @route  PUT /api/users/profile
 // @access Private
 export const updateUserProfile = asyncHandler(async (req, res) => {
-  res.send("update user profile");
+  const user = await User.findById(req.userInfo._id);
+
+  if (user?._id) {
+    (user.name = req.body.name), (user.email = req.body.email);
+
+    if (req.body.password) {
+      user.password = encryptPassword(req.body.password);
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 // @desc   Get users

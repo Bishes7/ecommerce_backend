@@ -17,6 +17,13 @@ Content-Type: application/json
 
 ### Register User
 POST {{rootURl}}/api/users
+Content-Type: application/json
+
+{
+    "name": "Umesh Dhakal",
+    "email":"umesh@email.com",
+    "password":"Adamghat7"
+}
 
 ### Logout User
 POST {{rootURl}}/api/users/logout
