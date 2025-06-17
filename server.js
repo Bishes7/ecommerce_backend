@@ -4,6 +4,7 @@ import connectDB from "./config/dbConnect.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 connectDB(); // connection to MongoDB
@@ -15,6 +16,9 @@ const app = express();
 // // Middleware to parse incoming JSON request bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie parser middleware
+app.use(cookieParser());
 
 // get method
 app.get("/", (req, res) => {

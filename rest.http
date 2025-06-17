@@ -2,13 +2,17 @@
 
 # Users Testings
 
+### GET User
+GET {{rootURl}}/api/users/profile
+
+
 ### Login User  (USERS ONLY)-----
 POST {{rootURl}}/api/users/login
 Content-Type: application/json
 
 {
     "email":"admin@email.com",
-    "password":"Adamghat7s"
+    "password":"Adamghat7"
 }
 
 ### Register User
@@ -26,9 +30,16 @@ PUT {{rootURl}}/api/users/profile
 ### ADMINS ONLY---------
 ### GET Users 
 GET {{rootURl}}/api/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTAwOTAzNjIsImV4cCI6MTc1MjY4MjM2Mn0.q3fNoaFklPUzpBz-zavcFZkQkG35O3rxC_3uf7gAjY8
+
+{
+    "email":"admin@email.com",
+    "password":"Adamghat7"
+}
 
 ### GET user by id
 GET {{rootURl}}/api/users/:id
+
 
 ### DElete user
 DELETE {{rootURl}}/api/users/:id

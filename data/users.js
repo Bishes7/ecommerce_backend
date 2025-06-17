@@ -5,20 +5,20 @@ const users = [
     name: "Admin",
     email: "admin@email.com",
     password: bcrypt.hashSync("Adamghat7", 10),
-    isAmin: true,
+    isAdmin: true,
   },
   {
     name: "Bijay Bhandari",
     email: "bijay@email.com",
     password: bcrypt.hashSync("Adamghat7", 10),
-    isAmin: false,
+    isAdmin: false,
   },
 
   {
     name: "Kiran Lamichhane",
     email: "kiran@email.com",
     password: bcrypt.hashSync("Adamghat7", 10),
-    isAmin: false,
+    isAdmin: false,
   },
 ];
 

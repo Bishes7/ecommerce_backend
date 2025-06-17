@@ -10,13 +10,21 @@ import {
   updateUser,
   updateUserProfile,
 } from "../controllers/UserController.js";
+import { admin, isAuthenticated } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getUsers).post(registerUser);
+router.route("/").get(isAuthenticated, admin, getUsers).post(registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.route("/profile").get(getUserProfile).put(updateUserProfile);
-router.route("/:id").delete(deleteUser).get(getUserByID).put(updateUser);
+router
+  .route("/profile")
+  .get(isAuthenticated, getUserProfile)
+  .put(isAuthenticated, updateUserProfile);
+router
+  .route("/:id")
+  .delete(isAuthenticated, admin, deleteUser)
+  .get(isAuthenticated, admin, getUserByID)
+  .put(isAuthenticated, admin, updateUser);
 
 export default router;
