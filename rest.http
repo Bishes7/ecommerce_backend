@@ -54,3 +54,31 @@ DELETE {{rootURl}}/api/users/:id
 ### Update user
 PUT {{rootURl}}/api/users/:id
 
+### Orders links ---------------------------------------------
+
+### Post new orders
+POST {{rootURl}}/api/orders
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzU5MjksImV4cCI6MTc1NTI2NzkyOX0.WrDr7t91sLdTL_X6xKjxOePFUt3oH8vtJeyWYP-R_Lo
+
+### GET my orders
+GET {{rootURl}}/api/orders/mine
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzU5MjksImV4cCI6MTc1NTI2NzkyOX0.WrDr7t91sLdTL_X6xKjxOePFUt3oH8vtJeyWYP-R_Lo
+
+### GET Order by ID
+GET {{rootURl}}/api/orders/:id
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNmEiLCJpYXQiOjE3NTI2NzYyMjcsImV4cCI6MTc1NTI2ODIyN30.DQfPIfoLL7dMKkZ1B8BqwvxDkEWkGNhbM9p
+
+### Update order to paid
+PUT {{rootURl}}/api/orders/:id/pay
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNmEiLCJpYXQiOjE3NTI2NzYyMjcsImV4cCI6MTc1NTI2ODIyN30.DQfPIfoLL7dMKkZ1B8BqwvxDkEWkGNhbM9p
+
+### Update order to delivered
+PUT {{rootURl}}/api/orders/:id/deliver
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzY1NzksImV4cCI6MTc1NTI2ODU3OX0.xJ2kyaeDOSUn9VWj0A8GFJIEVLERpUp6Tj2NbwwNv5U
+
+### GET all orders for admin
+GET {{rootURl}}/api/orders
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzY1NzksImV4cCI6MTc1NTI2ODU3OX0.xJ2kyaeDOSUn9VWj0A8GFJIEVLERpUp6Tj2NbwwNv5U

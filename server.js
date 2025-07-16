@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/dbConnect.js";
 import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
@@ -30,6 +31,9 @@ app.use("/api/products", productRoutes);
 
 // path to user routes
 app.use("/api/users", userRoutes);
+
+// path to order routes
+app.use("/api/orders", orderRoutes);
 
 // middleware to catch errors
 app.use(notfound);
