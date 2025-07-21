@@ -18,7 +18,7 @@ router
 
 router.route("/mine").get(isAuthenticated, getMyOrders);
 
-router.route("/:id").get(isAuthenticated, admin, getOrderById);
+router.route("/:id").get(isAuthenticated, getOrderById);
 
 router.route("/:id/pay").put(isAuthenticated, updateOrderToPaid);
 
