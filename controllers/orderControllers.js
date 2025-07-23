@@ -72,7 +72,8 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
-    order.paymentMethod = {
+    order.paymentMethod = "PayPal";
+    order.paymentResult = {
       id: req.body.id,
       status: req.body.status,
       update_time: req.body.update_time,
@@ -97,5 +98,6 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // @route GET /api/orders
 // @access Private/Admin
 export const getOrders = asyncHandler(async (req, res) => {
-  res.send("get all orders");
+  const orders = await Order.find({}).populate("user", "id name");
+  res.status(200).json(orders);
 });
