@@ -1,7 +1,10 @@
+import path from "path";
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/dbConnect.js";
 import productRoutes from "./routes/productRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
@@ -13,6 +16,7 @@ connectDB(); // connection to MongoDB
 const PORT = process.env.PORT;
 
 const app = express();
+app.use(cors());
 
 // // Middleware to parse incoming JSON request bodies
 app.use(express.json());
@@ -34,6 +38,13 @@ app.use("/api/users", userRoutes);
 
 // path to order routes
 app.use("/api/orders", orderRoutes);
+
+// routes to upload photos
+app.use("/api/upload", uploadRoutes);
+
+// Make uploads folder static
+const __dirname = path.resolve(); // Set __dirname to current directory
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 //  path to paypal
 app.get("/api/config/paypal", (req, res) =>
