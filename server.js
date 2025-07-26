@@ -16,7 +16,12 @@ connectDB(); // connection to MongoDB
 const PORT = process.env.PORT;
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // // Middleware to parse incoming JSON request bodies
 app.use(express.json());

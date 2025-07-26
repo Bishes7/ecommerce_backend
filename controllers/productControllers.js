@@ -56,3 +56,16 @@ export const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
+
+// Delete product - Admin only
+export const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await productModel.findById(req.params.id);
+
+  if (product) {
+    await productModel.deleteOne({ _id: product._id });
+    res.status(200).json({ message: "Product Deleted" });
+  } else {
+    res.status(400);
+    throw new Error("Product not found");
+  }
+});
