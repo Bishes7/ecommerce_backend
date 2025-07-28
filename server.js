@@ -9,6 +9,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 connectDB(); // connection to MongoDB
