@@ -22,6 +22,6 @@ router.put("/:id", isAuthenticated, admin, updateProduct);
 router.delete("/:id", deleteProduct);
 
 // create a review route
-router.post("/:id/reviews", createProductReview);
+router.post("/:id/reviews", isAuthenticated, createProductReview);
 
 export default router;

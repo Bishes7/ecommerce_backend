@@ -82,3 +82,16 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3
 ### GET all orders for admin
 GET {{rootURl}}/api/orders
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzY1NzksImV4cCI6MTc1NTI2ODU3OX0.xJ2kyaeDOSUn9VWj0A8GFJIEVLERpUp6Tj2NbwwNv5U
+
+### Submit Review
+POST {{rootURl}}/api/products/684eaba037569e0cc5c68273/reviews
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODRlYWJhMDM3NTY5ZTBjYzVjNjgyNjgiLCJpYXQiOjE3NTI2NzY1NzksImV4cCI6MTc1NTI2ODU3OX0.xJ2kyaeDOSUn9VWj0A8GFJIEVLERpUp6Tj2NbwwNv5U
+
+{
+    "name" : "Bijay Bhandari",
+    "rating" : 5,
+    "comment" : "This is a good book",
+    "user" : "684eaba037569e0cc5c68269"
+
+}

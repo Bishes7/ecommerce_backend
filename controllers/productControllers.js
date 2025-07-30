@@ -72,6 +72,8 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 
 // Create a product review
 export const createProductReview = asyncHandler(async (req, res) => {
+  console.log("🔐 userInfo:", req.userInfo);
+
   const { rating, comment } = req.body;
 
   const product = await productModel.findById(req.params.id);
@@ -95,6 +97,7 @@ export const createProductReview = asyncHandler(async (req, res) => {
     };
 
     product.reviews.push(review);
+    console.log("📦 Product with reviews:", product.reviews);
 
     product.numReviews = product.reviews.length;
 
