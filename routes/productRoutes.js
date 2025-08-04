@@ -5,6 +5,8 @@ import {
   deleteProduct,
   getAllProducts,
   getProduct,
+  getProductStats,
+  getTopProducts,
   updateProduct,
 } from "../controllers/productControllers.js";
 import { admin, isAuthenticated } from "../middleware/authMiddleware.js";
@@ -12,6 +14,11 @@ import { admin, isAuthenticated } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/", getAllProducts);
+
+// get products stats
+router.get("/stats", isAuthenticated, admin, getProductStats);
+
+router.get("/top", getTopProducts);
 
 router.get("/:id", getProduct);
 

@@ -112,3 +112,50 @@ export const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user", "id name");
   res.status(200).json(orders);
 });
+
+// get orders stats
+export const getOrderStats = asyncHandler(async (req, res) => {
+  const stats = await Order.aggregate([
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%d-%m-%Y", date: "$createdAt" },
+        },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+  res.status(200).json(stats);
+});
+
+// get Order Status stats/ api/orders/status-stats
+export const getOrderStatusStats = asyncHandler(async (req, res) => {
+  const stats = await Order.aggregate([
+    {
+      $group: {
+        _id: {
+          $cond: [{ $eq: ["$isDelivered", true] }, "Delivered", "Pending"],
+        },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  res.status(200).json(stats);
+});
+
+// get total revenue per day - /api/orders/revenue-stats
+export const getRevenueStats = asyncHandler(async (req, res) => {
+  const stats = await Order.aggregate([
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%d-%m-%Y", date: "$createdAt" },
+        },
+        totalRevenue: { $sum: "$totalPrice" },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+  res.status(200).json(stats);
+});

@@ -5,11 +5,23 @@ import {
   getMyOrders,
   getOrderById,
   getOrders,
+  getOrderStats,
+  getOrderStatusStats,
+  getRevenueStats,
   updateOrderToDelivered,
   updateOrderToPaid,
 } from "../controllers/orderControllers.js";
 
 const router = express.Router();
+
+// get order stats
+router.get("/stats", isAuthenticated, admin, getOrderStats);
+
+// get order status stats
+router.get("/status-stats", isAuthenticated, admin, getOrderStatusStats);
+
+// get order revenue stats
+router.get("/revenue-stats", isAuthenticated, admin, getRevenueStats);
 
 router
   .route("/")

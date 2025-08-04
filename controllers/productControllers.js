@@ -2,7 +2,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import productModel from "../model/productSchema.js";
 
 export const getAllProducts = asyncHandler(async (req, res, next) => {
-  const pageSize = 1;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
@@ -122,4 +122,26 @@ export const createProductReview = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Product not found");
   }
+});
+
+// get top products - api/products/top
+export const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await productModel.find({}).sort({ rating: -1 }).limit(4);
+  res.status(200).json(products);
+});
+
+// get products stats
+export const getProductStats = asyncHandler(async (req, res) => {
+  const stats = await productModel.aggregate([
+    {
+      $group: {
+        _id: "$category",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+  ]);
+  res.status(200).json(stats);
 });
