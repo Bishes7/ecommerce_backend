@@ -2,16 +2,20 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import productModel from "../model/productSchema.js";
 
 export const getAllProducts = asyncHandler(async (req, res, next) => {
-  const pageSize = 8;
+  const pageSize = 12;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
     ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
 
-  const count = await productModel.countDocuments({ ...keyword });
+  const category = req.query.category
+    ? { category: { $regex: req.query.category, $options: "i" } }
+    : {};
+
+  const count = await productModel.countDocuments({ ...keyword, ...category });
   const products = await productModel
-    .find({ ...keyword })
+    .find({ ...keyword, ...category })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) }); // send products to the client
