@@ -7,6 +7,8 @@ import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 
@@ -56,6 +58,9 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.get("/api/config/paypal", (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
+
+// message route
+app.use("/api/message", messageRoutes);
 
 // middleware to catch errors
 app.use(notfound);
