@@ -18,6 +18,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      avatar: user.avatar,
     });
   } else {
     res.status(401);
@@ -29,7 +30,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @route  POST /api/users
 // @access Public
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, avatar } = req.body;
 
   // check if the user exists
   const userExists = await User.findOne({ email });
@@ -80,6 +81,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      avatar: user.avatar,
     });
   } else {
     res.status(404);
@@ -99,14 +101,18 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     if (req.body.password) {
       user.password = encryptPassword(req.body.password);
     }
+    if (req.body.avatar) {
+      user.avatar = req.body.avatar;
+    }
 
     const updatedUser = await user.save();
 
     res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      avatar: updatedUser.avatar,
     });
   } else {
     res.status(404);
@@ -165,14 +171,18 @@ export const updateUser = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.isAdmin = Boolean(req.body.isAdmin);
+    if (req.body.avatar) {
+      user.avatar = req.body.avatar;
+    }
 
     const updatedUser = await user.save();
 
     res.status(200).json({
-      _id: updateUser._id,
-      name: updateUser.name,
-      email: updateUser.email,
-      isAdmin: updateUser.isAdmin,
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      avatar: updatedUser.avatar,
     });
   } else {
     res.status(404);
