@@ -1,5 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../model/orderSchema.js";
+import User from "../model/userSchema.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // @desc Create new order
 // @route POST /api/orders
@@ -33,7 +35,23 @@ export const addOrderItems = asyncHandler(async (req, res) => {
       totalPrice,
       shippingPrice,
     });
+
     const newOrder = await order.save();
+    const user = await User.findById(req.userInfo._id);
+    if (user) {
+      await sendEmail({
+        to: user.email,
+        subject: "Order Confirmation - B&B Electronics",
+        text: `Your order #${order._id} has been placed successfully.`,
+        html: `
+        <h2>Order Confirmation</h2>
+        <p>Your order <strong>#${order._id}</strong> has been placed successfully.</p>
+        <p>Total: $${order.totalPrice}</p>
+        <p>We'll notify you once your order ships!</p>
+      `,
+      });
+    }
+
     res.status(201).json(newOrder);
   }
 });

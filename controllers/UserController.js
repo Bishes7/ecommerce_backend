@@ -1,9 +1,11 @@
+import { text } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../model/userSchema.js";
 import router from "../routes/productRoutes.js";
 import { comparePassword, encryptPassword } from "../utils/bcrypt.js";
 import generateToken from "../utils/generateToken.js";
-
+import sendEmail from "../utils/sendEmail.js";
+import crypto from "crypto";
 // @desc   Auth user & get token
 // @route  POST /api/users/login
 // @access Public
@@ -46,11 +48,19 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   if (user?._id) {
     generateToken(res, user._id);
+    await sendEmail({
+      to: email,
+      subject: "Welcome to B&B electronics shopping website",
+      text: `Hi ${name}, Welcome to B&B Electronics. You account has been created successfully`,
+      html: `
+      <h2>Welcome, ${name}</h2>
+      <p>Thank you for joining <strong>B&B Electronics</strong>. Your account has been successfully created.</p>
+        <p>Visit your account dashboard here: <a href="https://localhost:5173/login">Login</a></p>`,
+    });
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
     });
   } else {
     res.status(400);
@@ -188,6 +198,43 @@ export const updateUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User not found");
   }
+});
+
+// Forgot passsword controller
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetTokenHash = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Save token and expiration to DB
+  user.resetPasswordToken = resetTokenHash;
+  user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 minutes
+  await user.save();
+
+  // Create reset URL
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+  const message = `Click the link below to reset your password:\n\n${resetUrl}`;
+
+  // Send email
+  await sendEmail({
+    to: user.email,
+    subject: "Password Reset Request",
+    message,
+  });
+
+  res.json({ message: "Password reset link sent to your email" });
 });
 
 export default router;

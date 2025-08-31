@@ -8,6 +8,8 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import testRoutes from "./routes/testRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 
 import { errorHandler, notfound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
@@ -61,6 +63,11 @@ app.get("/api/config/paypal", (req, res) =>
 
 // message route
 app.use("/api/message", messageRoutes);
+
+app.use("/api/test", testRoutes);
+
+// payment routes
+app.use("/api/payment", paymentRoutes);
 
 // middleware to catch errors
 app.use(notfound);
