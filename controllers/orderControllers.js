@@ -38,19 +38,6 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 
     const newOrder = await order.save();
     const user = await User.findById(req.userInfo._id);
-    if (user) {
-      await sendEmail({
-        to: user.email,
-        subject: "Order Confirmation - B&B Electronics",
-        text: `Your order #${order._id} has been placed successfully.`,
-        html: `
-        <h2>Order Confirmation</h2>
-        <p>Your order <strong>#${order._id}</strong> has been placed successfully.</p>
-        <p>Total: $${order.totalPrice}</p>
-        <p>We'll notify you once your order ships!</p>
-      `,
-      });
-    }
 
     res.status(201).json(newOrder);
   }
@@ -90,15 +77,35 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
-    order.paymentMethod = "PayPal";
+
+    // Use payment method if provided or default to existing order method
+    order.paymentMethod = req.body.paymentMethod || order.paymentMethod;
+
+    // Handle different structures (PayPal, eSewa, etc.)
+    const paymentData = req.body.paymentResult || req.body;
+
     order.paymentResult = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
+      id: paymentData.id || "",
+      status: paymentData.status || "",
+      update_time: paymentData.update_time || "",
+      email_address: paymentData.email_address || "",
     };
-    const updateOrder = await order.save();
-    res.status(200).json(updateOrder);
+
+    const updatedOrder = await order.save();
+    const user = await User.findById(req.userInfo._id);
+    await sendEmail({
+      to: user.email,
+      subject: "Payment Confirmation- B&B Electronics",
+      text: `Your order #${order._id} has been successfully paid`,
+      html: `
+        <h2>Payment Successful</h2>
+        <p>Hi ${user.name},</p>
+        <p>Your payment for <strong>Order #${order._id}</strong> was successful.</p>
+        <p>Total Paid: Rs. ${order.totalPrice}</p>
+        <p>Thank you for shopping with us!</p>
+      `,
+    });
+    res.status(200).json(updatedOrder);
   } else {
     res.status(404);
     throw new Error("Order not found");
@@ -116,6 +123,20 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
     order.deliveredAt = Date.now();
 
     const updatedOrder = await order.save();
+    const user = await User.findById(req.userInfo._id);
+    await sendEmail({
+      to: user.email,
+      subject: "Order Delivered - B&B Electronics",
+      text: `Your order #${order._id} has been delivered successfully.`,
+      html: `
+        <h2>Order Delivered</h2>
+        <p>Hi ${user.name},</p>
+        <p>Your <strong>Order #${order._id}</strong> has been delivered successfully.</p>
+        <p>Total Paid: Rs. ${order.totalPrice}</p>
+        <p>We hope you enjoy your purchase. Thank you for shopping with us!</p>
+      `,
+    });
+
     res.status(200).json(updatedOrder);
   } else {
     res.status(404);

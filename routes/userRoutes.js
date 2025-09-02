@@ -10,6 +10,7 @@ import {
   updateUser,
   updateUserProfile,
   forgotPassword,
+  resetPassword,
 } from "../controllers/UserController.js";
 import { admin, isAuthenticated } from "../middleware/authMiddleware.js";
 
@@ -34,6 +35,6 @@ router
 router.post("/forgot-password", forgotPassword);
 
 // reset password route
-// router.post("/reset-password/:token", resetPassword);
+router.post("/reset-password/:token", resetPassword);
 
 export default router;
