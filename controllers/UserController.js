@@ -1,4 +1,3 @@
-import { text } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../model/userSchema.js";
 import router from "../routes/productRoutes.js";
@@ -6,6 +5,7 @@ import { comparePassword, encryptPassword } from "../utils/bcrypt.js";
 import generateToken from "../utils/generateToken.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto";
+
 // @desc   Auth user & get token
 // @route  POST /api/users/login
 // @access Public
@@ -231,10 +231,39 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   await sendEmail({
     to: user.email,
     subject: "Password Reset Request",
-    message,
+    text: message,
   });
 
   res.json({ message: "Password reset link sent to your email" });
+});
+
+// reset password controller
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  // hash the token to match the DB
+  const resetTokenHash = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  // FInd user with token and enseure token isnt expired
+  const user = await User.findOne({
+    resetPasswordToken: resetTokenHash,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+  if (!user) {
+    res.status(400);
+    throw new Error("Invalid or expired token");
+  }
+  // update password
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  res.json({ message: "Password has been reset successfully" });
 });
 
 export default router;
