@@ -86,9 +86,6 @@ export const initiateEsewa = asyncHandler(async (req, res) => {
     signature,
     payment_url: RC_FORM_URL,
   });
-
-  console.log("SIGNED MESSAGE:", message);
-  console.log("SIGNATURE:", signature);
 });
 
 // --------------------
@@ -96,18 +93,15 @@ export const initiateEsewa = asyncHandler(async (req, res) => {
 // --------------------
 export const checkEsewaStatus = asyncHandler(async (req, res) => {
   const { total_amount, transaction_uuid, orderId } = req.query;
-  console.log("Incoming query:", req.query); // Debug log
 
   const product_code = process.env.ESEWA_PRODUCT_CODE || "EPAYTEST";
   const url = `${RC_STATUS_URL}?product_code=${product_code}&total_amount=${total_amount}&transaction_uuid=${transaction_uuid}`;
 
   const response = await fetch(url);
   const data = await response.json();
-  console.log("Esewa status response:", data); // Debug log
 
   if (data.status === "COMPLETE") {
     const order = await Order.findById(orderId);
-    console.log("Order found:", order); // Debug log
 
     if (order) {
       order.isPaid = true;
@@ -118,7 +112,6 @@ export const checkEsewaStatus = asyncHandler(async (req, res) => {
         total_amount,
       };
       await order.save();
-      console.log("Order updated:", order); // Debug log
     } else {
       console.log("No order found with this ID");
     }

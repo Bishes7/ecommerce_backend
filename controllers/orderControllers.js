@@ -72,7 +72,10 @@ export const getOrderById = asyncHandler(async (req, res) => {
 // @route PUT /api/orders/:id/pay
 // @access Private
 export const updateOrderToPaid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name,email"
+  );
 
   if (order) {
     order.isPaid = true;
@@ -116,21 +119,24 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @route PUT /api/orders/:id/deliver
 // @access Private/Admin
 export const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
 
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
 
     const updatedOrder = await order.save();
-    const user = await User.findById(req.userInfo._id);
+
     await sendEmail({
-      to: user.email,
+      to: order.user.email,
       subject: "Order Delivered - B&B Electronics",
       text: `Your order #${order._id} has been delivered successfully.`,
       html: `
         <h2>Order Delivered</h2>
-        <p>Hi ${user.name},</p>
+        <p>Hi ${order.user.name},</p>
         <p>Your <strong>Order #${order._id}</strong> has been delivered successfully.</p>
         <p>Total Paid: Rs. ${order.totalPrice}</p>
         <p>We hope you enjoy your purchase. Thank you for shopping with us!</p>
