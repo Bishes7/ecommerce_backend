@@ -13,7 +13,7 @@ const products = [
   },
   {
     name: "Sony 5.1 Home Theater System",
-    image: "/images/audio1.jpg",
+    image: "/images/sony.jpg",
     description: "High-quality surround sound for your living room.",
     brand: "Sony",
     category: "tv-audio",
@@ -72,7 +72,7 @@ const products = [
   // ===== Home Appliances =====
   {
     name: "Whirlpool Double Door Refrigerator",
-    image: "/images/fridge1.jpg",
+    image: "/images/whirlpool.jpg",
     description: "Energy-efficient refrigerator with frost-free cooling.",
     brand: "Whirlpool",
     category: "home-appliances",
@@ -94,7 +94,7 @@ const products = [
   },
   {
     name: "Samsung Front Load Washing Machine",
-    image: "/images/wash1.jpg",
+    image: "/images/washing.jpg",
     description: "Smart washing machine with eco-friendly wash cycles.",
     brand: "Samsung",
     category: "home-appliances",
@@ -105,7 +105,7 @@ const products = [
   },
   {
     name: "Panasonic Microwave Oven",
-    image: "/images/micro1.jpg",
+    image: "/images/microwave.jpg",
     description: "High-capacity microwave oven for fast and even cooking.",
     brand: "Panasonic",
     category: "home-appliances",
@@ -265,7 +265,7 @@ const products = [
   },
   {
     name: "Samsung Galaxy S23 Ultra",
-    image: "/images/s23ultra.jpg",
+    image: "/images/ultra.jpg",
     description: "Top-tier smartphone with advanced camera features.",
     brand: "Samsung",
     category: "mobile-accessories",
@@ -276,7 +276,7 @@ const products = [
   },
   {
     name: "Redmi Note 12",
-    image: "/images/redmi12.jpg",
+    image: "/images/redmi.jpg",
     description: "Affordable smartphone with powerful performance.",
     brand: "Xiaomi",
     category: "mobile-accessories",
@@ -345,7 +345,7 @@ const products = [
   // ===== Smart Home =====
   {
     name: "Google Nest Mini (2nd Gen)",
-    image: "/images/nestmini.jpg",
+    image: "/images/next.jpg",
     description: "Smart speaker with Google Assistant.",
     brand: "Google",
     category: "smart-home",
@@ -356,7 +356,7 @@ const products = [
   },
   {
     name: "Philips Smart LED Bulb",
-    image: "/images/smartbulb.jpg",
+    image: "/images/philip.jpg",
     description: "WiFi-enabled smart bulb with app control.",
     brand: "Philips",
     category: "smart-home",
@@ -367,7 +367,7 @@ const products = [
   },
   {
     name: "5 Liter Air Humidifier",
-    image: "/images/purifier1.jpg",
+    image: "/images/airpuri.jpg",
     description: "Air Quality Indicator with 4 Colors.",
     brand: "Midea",
     category: "smart-home",
@@ -378,7 +378,7 @@ const products = [
   },
   {
     name: "Amazon Echo Dot (5th Gen)",
-    image: "/images/echodot.jpg",
+    image: "/images/dot.jpg",
     description: "Compact smart speaker with Alexa.",
     brand: "Amazon",
     category: "smart-home",
@@ -402,7 +402,7 @@ const products = [
   },
   {
     name: "Philips Air Purifier",
-    image: "/images/airpurifier.jpg",
+    image: "/images/puri.jpg",
     description: "Removes allergens and purifies air effectively.",
     brand: "Philips",
     category: "purification-hygiene",
@@ -413,7 +413,7 @@ const products = [
   },
   {
     name: "Dettol Hand Sanitizer (500ml)",
-    image: "/images/sanitizer.jpg",
+    image: "/images/dettol.jpg",
     description: "Kills 99.9% of germs instantly.",
     brand: "Dettol",
     category: "purification-hygiene",
@@ -437,7 +437,7 @@ const products = [
   },
   {
     name: "Motorcycle Phone Mount",
-    image: "/images/phonemount.jpg",
+    image: "/images/mountcar.jpg",
     description: "Secure phone mount for bikes and motorcycles.",
     brand: "Generic",
     category: "vehicle",
@@ -461,7 +461,7 @@ const products = [
   // ===== Brands =====
   {
     name: "Apple MacBook Air M2",
-    image: "/images/macbook.jpg",
+    image: "/images/mac.jpg",
     description: "Lightweight laptop with M2 chip and Retina display.",
     brand: "Apple",
     category: "brands",
@@ -483,7 +483,7 @@ const products = [
   },
   {
     name: "HP Pavilion Gaming Laptop",
-    image: "/images/hpgaming.jpg",
+    image: "/images/lap.jpg",
     description: "Gaming laptop with powerful graphics performance.",
     brand: "HP",
     category: "brands",
