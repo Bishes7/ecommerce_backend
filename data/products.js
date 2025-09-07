@@ -496,7 +496,7 @@ const products = [
   // Hot deals
   {
     name: "Oppo Reno 11 Pro 5G",
-    image: "/festive/oppo-reno11.png",
+    image: "/festive/oppo.jpg",
     description:
       "Stylish flagship with curved AMOLED display and 80W fast charging.",
     brand: "Oppo",
@@ -510,7 +510,7 @@ const products = [
   },
   {
     name: "Vivo V30 5G (12/256 GB)",
-    image: "/festive/vivo-v30.png",
+    image: "/festive/vivo.png",
     description: "Premium midrange with Aura Light portrait camera.",
     brand: "Vivo",
     category: "mobile-accessories",
@@ -523,7 +523,7 @@ const products = [
   },
   {
     name: "Nothing Phone (2a)",
-    image: "/festive/nothing2a.png",
+    image: "/festive/nothing.jpg",
     description: "Unique transparent design with Glyph Interface.",
     brand: "Nothing",
     category: "mobile-accessories",
@@ -536,7 +536,7 @@ const products = [
   },
   {
     name: "Google Pixel 8",
-    image: "/festive/pixel8.png",
+    image: "/festive/google.jpg",
     description: "Best-in-class camera with Google AI features.",
     brand: "Google",
     category: "mobile-accessories",
@@ -549,7 +549,7 @@ const products = [
   },
   {
     name: "Infinix Zero Ultra 5G",
-    image: "/festive/infinix-ultra.png",
+    image: "/festive/zero.jpg",
     description: "200MP OIS camera with 180W fast charging.",
     brand: "Infinix",
     category: "mobile-accessories",
@@ -562,22 +562,10 @@ const products = [
   },
 
   // Fridges (5)
-  {
-    name: "Haier Triple Door Refrigerator 345L",
-    image: "/festive/haier-fridge.png",
-    description: "Convertible freezer zone with frost-free technology.",
-    brand: "Haier",
-    category: "home-appliances",
-    price: 72000,
-    discountPrice: 64999,
-    isFestive: true,
-    countInStock: 5,
-    rating: 4.5,
-    numReviews: 0,
-  },
+
   {
     name: "Bosch Series 6 Bottom Freezer 400L",
-    image: "/festive/bosch-fridge.png",
+    image: "/festive/fr.jpg",
     description: "German-engineered fridge with VitaFresh technology.",
     brand: "Bosch",
     category: "home-appliances",
@@ -590,7 +578,7 @@ const products = [
   },
   {
     name: "Electrolux Side-by-Side 500L",
-    image: "/festive/electrolux-fridge.png",
+    image: "/festive/f.jpg",
     description: "Premium design with water and ice dispenser.",
     brand: "Electrolux",
     category: "home-appliances",
@@ -601,37 +589,11 @@ const products = [
     rating: 4.8,
     numReviews: 0,
   },
-  {
-    name: "Hisense 300L Double Door Refrigerator",
-    image: "/festive/hisense-fridge.png",
-    description: "Energy-efficient inverter compressor with fast cooling.",
-    brand: "Hisense",
-    category: "home-appliances",
-    price: 58000,
-    discountPrice: 52999,
-    isFestive: true,
-    countInStock: 6,
-    rating: 4.4,
-    numReviews: 0,
-  },
-  {
-    name: "Midea Convertible 260L Refrigerator",
-    image: "/festive/midea-fridge.png",
-    description: "Convertible freezer into fridge with smart cooling modes.",
-    brand: "Midea",
-    category: "home-appliances",
-    price: 49500,
-    discountPrice: 44999,
-    isFestive: true,
-    countInStock: 8,
-    rating: 4.3,
-    numReviews: 0,
-  },
 
   // Smartwatches (5)
   {
     name: "Amazfit GTR 4",
-    image: "/festive/amazfit-gtr4.png",
+    image: "/festive/gtr.jpg",
     description: "Premium smartwatch with AMOLED display and GPS.",
     brand: "Amazfit",
     category: "mobile-accessories",
@@ -644,7 +606,7 @@ const products = [
   },
   {
     name: "Noise ColorFit Pro 5",
-    image: "/festive/noise-pro5.png",
+    image: "/festive/colorfit.jpg",
     description: "Budget-friendly smartwatch with SpO2 monitoring.",
     brand: "Noise",
     category: "mobile-accessories",
@@ -657,7 +619,7 @@ const products = [
   },
   {
     name: "Huawei Watch GT 4",
-    image: "/festive/huawei-gt4.png",
+    image: "/festive/huwei.jpg",
     description: "Stylish smartwatch with 2-week battery life.",
     brand: "Huawei",
     category: "mobile-accessories",
@@ -670,7 +632,7 @@ const products = [
   },
   {
     name: "Fitbit Versa 4",
-    image: "/festive/fitbit-versa4.png",
+    image: "/festive/versa.jpg",
     description: "Fitness-focused smartwatch with heart-rate tracking.",
     brand: "Fitbit",
     category: "mobile-accessories",
@@ -683,7 +645,7 @@ const products = [
   },
   {
     name: "Garmin Venu Sq 2",
-    image: "/festive/garmin-venu.png",
+    image: "/festive/watch2.jpg",
     description: "AMOLED fitness watch with advanced GPS features.",
     brand: "Garmin",
     category: "mobile-accessories",

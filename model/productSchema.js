@@ -71,6 +71,8 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    isFestive: { type: Boolean, default: false },
+    discountPrice: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

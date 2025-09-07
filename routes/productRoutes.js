@@ -8,13 +8,14 @@ import {
   getProductStats,
   getTopProducts,
   updateProduct,
+  getHotDeals,
 } from "../controllers/productControllers.js";
 import { admin, isAuthenticated } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.get("/", getAllProducts);
-
+router.get("/hot", getHotDeals);
 // get products stats
 router.get("/stats", isAuthenticated, admin, getProductStats);
 

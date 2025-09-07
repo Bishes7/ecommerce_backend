@@ -2,7 +2,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import productModel from "../model/productSchema.js";
 
 export const getAllProducts = asyncHandler(async (req, res, next) => {
-  const pageSize = 12;
+  const pageSize = Number(req.query.pageSize || 12);
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
@@ -133,6 +133,21 @@ export const getTopProducts = asyncHandler(async (req, res) => {
   const products = await productModel.find({}).sort({ rating: -1 }).limit(4);
   res.status(200).json(products);
 });
+
+// @desc   Get Hot Deals
+// @route  GET /api/products/hot
+// @access Public
+export const getHotDeals = async (req, res) => {
+  try {
+    const hotDeals = await productModel.find({
+      $or: [{ isFestive: true }, { discountPrice: { $gt: 0 } }],
+    });
+
+    res.json(hotDeals);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // get products stats
 export const getProductStats = asyncHandler(async (req, res) => {
