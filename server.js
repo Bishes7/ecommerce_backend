@@ -18,7 +18,7 @@ dotenv.config();
 
 connectDB(); // connection to MongoDB
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 app.use(
@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // get method
-app.get("/", (req, res) => {
+app.get("/health", (_req, res) => {
   res.send("server is live");
 });
 

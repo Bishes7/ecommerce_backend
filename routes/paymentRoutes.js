@@ -10,7 +10,7 @@ import { isAuthenticated } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // Khalti Routes
-router.post("/khalti", isAuthenticated, createKhaltiPayment);
+router.post("/khalti/initiate", isAuthenticated, createKhaltiPayment);
 router.post("/khalti/verify", isAuthenticated, verifyKhaltiPayment);
 
 // ESewa Routes

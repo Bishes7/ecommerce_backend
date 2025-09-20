@@ -8,46 +8,74 @@ import Order from "../model/orderSchema.js";
 const INITIATE_URL = "https://a.khalti.com/api/v2/epayment/initiate/";
 const LOOKUP_URL = "https://a.khalti.com/api/v2/epayment/lookup/";
 
+// Initiate Khalti Payment
 export const createKhaltiPayment = asyncHandler(async (req, res) => {
   const { amount, purchaseOrderId, purchaseOrderName } = req.body;
   const secretKey = process.env.KHALTI_SECRET_KEY;
-  if (!secretKey)
+
+  if (!secretKey) {
     return res.status(500).json({ message: "Server configuration error" });
+  }
 
   const payload = {
     return_url: `${process.env.FRONTEND_URL}/payment-success`,
     website_url: process.env.FRONTEND_URL,
-    amount: amount * 100,
-    purchase_order_id: purchaseOrderId,
-    purchase_order_name: purchaseOrderName,
+    amount: Number(amount) * 100, // Khalti expects paisa
+    purchase_order_id: String(purchaseOrderId || Date.now()), // must be string
+    purchase_order_name: purchaseOrderName || "Ecommerce Order",
   };
 
-  const { data } = await axios.post(INITIATE_URL, payload, {
-    headers: {
-      Authorization: `Key ${secretKey}`,
-      "Content-Type": "application/json",
-    },
-  });
-  res.status(200).json(data);
-});
-
-export const verifyKhaltiPayment = asyncHandler(async (req, res) => {
-  const { pidx } = req.body;
-  const secretKey = process.env.KHALTI_SECRET_KEY;
-  if (!secretKey)
-    return res.status(500).json({ message: "Server configuration error" });
-
-  const { data } = await axios.post(
-    LOOKUP_URL,
-    { pidx },
-    {
+  try {
+    const { data } = await axios.post(INITIATE_URL, payload, {
       headers: {
         Authorization: `Key ${secretKey}`,
         "Content-Type": "application/json",
       },
-    }
-  );
-  res.status(200).json(data);
+    });
+
+    res.status(200).json(data); // contains pidx + payment_url
+  } catch (error) {
+    console.error(
+      "Khalti initiate error:",
+      error.response?.data || error.message
+    );
+    res
+      .status(error.response?.status || 500)
+      .json(error.response?.data || { message: "Payment initiation failed" });
+  }
+});
+
+// Verify Khalti Payment
+export const verifyKhaltiPayment = asyncHandler(async (req, res) => {
+  const { pidx } = req.body;
+  const secretKey = process.env.KHALTI_SECRET_KEY;
+
+  if (!secretKey) {
+    return res.status(500).json({ message: "Server configuration error" });
+  }
+
+  try {
+    const { data } = await axios.post(
+      LOOKUP_URL,
+      { pidx },
+      {
+        headers: {
+          Authorization: `Key ${secretKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(
+      "Khalti verify error:",
+      error.response?.data || error.message
+    );
+    res
+      .status(error.response?.status || 500)
+      .json(error.response?.data || { message: "Payment verification failed" });
+  }
 });
 
 // ESewa Controller
