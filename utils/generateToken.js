@@ -9,7 +9,7 @@ const generateToken = (res, userId) => {
   // Set jwt as HTTP-only co0kie
   res.cookie("jwt", token, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "None",
     maxAge: 30 * 60 * 60 * 1000, // 30 Days
   });
 };
