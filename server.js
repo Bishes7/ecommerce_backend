@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // get method
-app.get("/health", (_req, res) => {
+app.get("/", (req, res) => {
   res.send("server is live");
 });
 
