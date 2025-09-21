@@ -24,7 +24,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://ecommerce-frontend-three-pied.vercel.app/",
+      "https://ecommerce-frontend-three-pied.vercel.app",
       "http://localhost:5173",
     ],
     credentials: true,
