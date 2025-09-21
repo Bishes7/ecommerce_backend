@@ -38,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Cookie parser middleware
 app.use(cookieParser());
+app.set("trust proxy", 1);
 
 // get method
 app.get("/", (req, res) => {
